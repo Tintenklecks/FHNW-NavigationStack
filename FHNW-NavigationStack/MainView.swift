@@ -7,13 +7,33 @@
 
 import SwiftUI
 
+// MARK: - MainView
+
 struct MainView: View {
+    @State private var navigationPath: [Color] = []
+    var joinedColors: String {
+        navigationPath
+            .map { $0.description}
+            .joined(separator: " - ")
+    }
+    
+    
     var body: some View {
-        NavigationStack {
-            ContentView(color: .pink, colorName: "Pink")
+        ZStack {
+            NavigationStack(path: $navigationPath) {
+                ContentView(color: .pink, path: $navigationPath)
+            }
+            VStack {
+                Spacer()
+                Text("Path: \(joinedColors)")
+            }
         }
+
     }
 }
+
+
+// MARK: - MainView_Previews
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
