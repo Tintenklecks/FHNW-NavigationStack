@@ -10,29 +10,25 @@ import SwiftUI
 // MARK: - MainView
 
 struct MainView: View {
-    @State private var navigationPath: [Color] = []
-    var joinedColors: String {
-        navigationPath
-            .map { $0.description}
-            .joined(separator: " - ")
-    }
+
+  @State private var showDetail = false
+
+  var body: some View {
     
-    
-    var body: some View {
-        ZStack {
-            NavigationStack(path: $navigationPath) {
-                ContentView(color: .pink, path: $navigationPath)
-            }
-            VStack {
-                Spacer()
-                Text("Path: \(joinedColors)")
+    NavigationStack {
+      VStack {
+          Image(systemName: "car").font(.system(size: 100))
+            .onTapGesture {
+              showDetail = true
             }
         }
-
+        .navigationTitle("Startseite")
+        .navigationDestination(isPresented: $showDetail) {
+            DetailView()
+        }
     }
+  }
 }
-
-
 // MARK: - MainView_Previews
 
 struct MainView_Previews: PreviewProvider {
