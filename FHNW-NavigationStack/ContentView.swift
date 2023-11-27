@@ -13,35 +13,30 @@ struct ContentView: View {
     let color: Color
     @Binding var path: [Color]
 
-    private let allColors: [Color] = [.pink, .green, .orange, .blue]
-
     var body: some View {
         ScrollView {
-            VStack {
-                Color.clear.frame(height: 1)
-                ForEach(allColors, id: \.self) { color in
-                    NavigationLink(value: color) {
-                        Text(color.description)
-                            .font(.title)
-                            .padding()
-                    }
-                }
+            VStack(spacing: 20) {
+                Color.clear.frame(height: 1) // Trick for Full Width ;)
 
-//                Button("Back to the beginning") {
-//                    withAnimation {
-//                        path.removeAll()
-//                    }
-//                }
-//                .padding(.top, 48)
+                NavigationLink(value: Color.pink) { Text("PINK") }
+                NavigationLink(value: Color.green) { Text("GREEN") }
+                NavigationLink(value: Color.orange) { Text("ORANGE") }
+                NavigationLink(value: Color.blue) { Text("BLUE") }
+
+                Button("Back to the beginning") {
+                    path.removeAll()
+                }
+                .buttonStyle(BorderedButtonStyle())
+                .padding(.top, 48)
                 Spacer()
             }
         }
+        .font(.title)
         .navigationTitle(color.description.capitalized)
         .navigationDestination(for: Color.self) { color in
             ContentView(color: color, path: $path)
         }
         .background(color.opacity(0.3))
-//        .tint(.white)
     }
 }
 
